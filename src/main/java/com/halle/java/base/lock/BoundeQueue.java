@@ -29,6 +29,7 @@ public class BoundeQueue<T> {
 
             notEmpty.signal();
         }finally {
+            //fix bug
             lock.unlock();
         }
 
