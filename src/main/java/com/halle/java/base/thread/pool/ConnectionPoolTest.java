@@ -28,10 +28,8 @@ public class ConnectionPoolTest {
         }
         start.countDown();
 
-
         try {
             end.await();
-
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -83,7 +81,6 @@ public class ConnectionPoolTest {
                     count --;
                 }
             }
-
             end.countDown();
 
         }
