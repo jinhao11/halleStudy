@@ -9,7 +9,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class DefaultThreadPool<Job extends Runnable> implements ThreadPool<Job> {
 
     //最大线程数
-    private static final int MAX_WORKER_NUMBERS = 10;
+    private static final int MAX_WORKER_NUMBERS = 200;
 
     //线程池默认数量
     private static final int DEFAULT_WORKER_NUMBERS = 5;
@@ -35,6 +35,7 @@ public class DefaultThreadPool<Job extends Runnable> implements ThreadPool<Job> 
 
     public DefaultThreadPool(int num) {
         workerNum = num > MAX_WORKER_NUMBERS ? MAX_WORKER_NUMBERS : (num < MIN_WORKER_NUM ? MIN_WORKER_NUM : num);
+        initializeWorkers(workerNum);
     }
 
     /**
@@ -43,10 +44,9 @@ public class DefaultThreadPool<Job extends Runnable> implements ThreadPool<Job> 
      */
     private void initializeWorkers(int num) {
         for (int i = 0; i < num; i++) {
-            Worker worker = new Worker();
+            Worker worker = new Worker("ThreadPool-Worker-"+threadNum.getAndIncrement());
             workers.add(worker);
-            Thread thread = new Thread(worker,"ThreadPool-Worker-"+threadNum.getAndIncrement());
-            thread.start();
+            worker.start();
         }
     }
 
@@ -60,7 +60,11 @@ public class DefaultThreadPool<Job extends Runnable> implements ThreadPool<Job> 
     }
 
     public void shutdown() {
-
+        synchronized (jobs){
+            for (Worker worker : workers) {
+                worker.shutdown();
+            }
+        }
     }
 
     public void addWorkers(int num) {
@@ -100,8 +104,13 @@ public class DefaultThreadPool<Job extends Runnable> implements ThreadPool<Job> 
     /**
      * 工作者
      */
-    class Worker implements Runnable{
+    class Worker extends Thread{
         private volatile  boolean running = true;
+
+        public Worker(String name) {
+            super(name);
+        }
+
         public void run() {
             while( running ){
                 Job job = null;
@@ -131,6 +140,7 @@ public class DefaultThreadPool<Job extends Runnable> implements ThreadPool<Job> 
 
         public void shutdown(){
             running = false;
+            this.interrupt();
         }
     }
 }
