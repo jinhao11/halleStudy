@@ -3,7 +3,6 @@ package com.halle.java.base.thread.pool;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
@@ -145,23 +144,16 @@ public class SimpleHttpServer {
         InputStream in = null;
         FileOutputStream fileOutputStream;
         try {
-
-
             //如果读取资源为静态资源，则读取并输出
-
-
                 in = new FileInputStream("D://httpServer/1.jpg");
                 ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
                 int i;
                 while( ( i = in.read() ) != -1){
                     byteArrayOutputStream.write(i);
                 }
-
                 byte[] array = byteArrayOutputStream.toByteArray();
-
                 fileOutputStream = new FileOutputStream(new File("D://httpServer/test.jpg"));
                 fileOutputStream.write(array);
-
 
         } catch (IOException e) {
             out.println("HTTP/1.1 500");
