@@ -39,10 +39,7 @@ public class StackExample {
                         return false;
                     }
                     break;
-
             }
-
-
         }
         return true;
     }
@@ -53,7 +50,5 @@ public class StackExample {
         System.out.println(e.check(strArray));
         String[] strArray2 = {"{","(","[",")","}"};
         System.out.println(e.check(strArray2));
-
     }
-
 }

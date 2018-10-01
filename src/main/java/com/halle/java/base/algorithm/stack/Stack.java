@@ -1,7 +1,5 @@
 package com.halle.java.base.algorithm.stack;
 
-import java.lang.reflect.Array;
-
 public class Stack<T> {
     private String[] stackArray;
     private int top=-1;
