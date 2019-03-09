@@ -2,9 +2,7 @@ package com.halle.java.base.jdk8;
 
 import org.junit.Test;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 import java.util.function.BiPredicate;
 import java.util.function.Function;
 
@@ -35,13 +33,15 @@ public class LambdaTest {
 
     @Test
     public void testMethodReference2(){
-        TestQ test = System.out::println;
+        TestQ test = System.out::println; //该方式只能用于接口中只有一个抽象方法
         test.test("nihao");
     }
 
 
     interface TestQ{
         void test(String test);
+
+        //void anotherTest(String test1,String test2);
     }
 
     @Test
