@@ -1,4 +1,4 @@
-package com.halle.java.base.io.nio;
+package com.halle.java.base.io;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
@@ -36,6 +36,7 @@ public class NioSocketClient {
                         sc = SocketChannel.open();
                         //进行连接
                         sc.connect(address);
+                        String no = UUID.randomUUID().toString();
                         for (int j = 0; j < TALK_NUM; j++) {
                             //把数据放到缓冲区中
                             //建立缓冲区
@@ -47,7 +48,6 @@ public class NioSocketClient {
                             sc.write(writeBuffer);
                             //清空缓冲区数据
                             writeBuffer.clear();
-
                             Thread.sleep(2000);
                         }
 
