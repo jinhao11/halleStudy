@@ -1,4 +1,4 @@
-package com.halle.java.base.io;
+package com.halle.java.base.io.nio;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
@@ -15,7 +15,7 @@ public class NIOServer extends Thread {
     private Selector selector;
     //2 建立缓冲区
     private ByteBuffer readBuf = ByteBuffer.allocate(1024);
-    //3
+    //3 建立写缓冲区
     private ByteBuffer writeBuf = ByteBuffer.allocate(1024);
 
     public NIOServer(int port){
@@ -74,6 +74,7 @@ public class NIOServer extends Thread {
             //3 设置阻塞模式
             sc.configureBlocking(false);
             //4 注册到多路复用器上，并设置读取标识
+            System.out.println("接收到客户端的连接请求，监听可读状态");
             sc.register(this.selector, SelectionKey.OP_READ);
         } catch (IOException e) {
             e.printStackTrace();

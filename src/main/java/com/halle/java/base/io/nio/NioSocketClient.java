@@ -1,4 +1,4 @@
-package com.halle.java.base.io;
+package com.halle.java.base.io.nio;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
@@ -10,8 +10,8 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class NioSocketClient {
-    public static final int CLIENT_NUM = 1000;
-    public static final int TALK_NUM = 100;
+    public static final int CLIENT_NUM = 3;
+    public static final int TALK_NUM = 1000000;
     public static final String SOCKET_IP = "127.0.0.1";
 
 
@@ -29,13 +29,13 @@ public class NioSocketClient {
                     SocketChannel sc = null;
 
 
+                    String no = UUID.randomUUID().toString();
 
                     try {
                         //打开通道
                         sc = SocketChannel.open();
                         //进行连接
                         sc.connect(address);
-                        String no = UUID.randomUUID().toString();
                         for (int j = 0; j < TALK_NUM; j++) {
                             //把数据放到缓冲区中
                             //建立缓冲区
@@ -47,13 +47,13 @@ public class NioSocketClient {
                             sc.write(writeBuffer);
                             //清空缓冲区数据
                             writeBuffer.clear();
+
                             Thread.sleep(2000);
                         }
 
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    } catch (InterruptedException e ){
-                        e.printStackTrace();
+                    } catch (Exception e) {
+                        System.out.println(no +" is error");
+                        System.out.println(e.getMessage());
                     }
                     finally {
                         if(sc != null){
