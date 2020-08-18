@@ -5,7 +5,7 @@ import java.awt.datatransfer.Transferable;
 /**
  * Add Two Numbers
  */
-public class Solution {
+public class AddTwoNumbers {
     public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
         /**
          * 获取两个集合的大小
@@ -137,7 +137,7 @@ public class Solution {
     }
 
     public static void main(String[] args) {
-        Solution s = new Solution();
+        AddTwoNumbers s = new AddTwoNumbers();
         ListNode l1 = new ListNode(2);
         l1.next = new ListNode(4);
         l1.next.next = new ListNode(3);

@@ -45,4 +45,13 @@ public class ShuffleString1528 {
         return new String(sChars);
 
     }
+
+    public String restoreString2(String s, int[] indices) {
+        char[] arr = new char[s.length()];
+
+        for (int i = 0; i < indices.length; i++) {
+            arr[indices[i]] = s.charAt(i);
+        }
+        return String.valueOf(arr);
+    }
 }
