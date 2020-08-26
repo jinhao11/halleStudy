@@ -1,6 +1,5 @@
 package com.halle.java.base.algorithm.leecode.concurrent;
 
-import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.IntConsumer;
@@ -53,8 +52,12 @@ public class ZeroEvenOdd {
     // printNumber.accept(x) outputs "x", where x is an integer.
     public void zero(IntConsumer printNumber) throws InterruptedException {
         while(integer.intValue() <= n){
+            if(integer.intValue() == n){
+                //释放锁
+                zeroSemaphore.release(1);
+            }
             if(integer.intValue() == 0){
-                printNumber.accept(integer.intValue());
+                printNumber.accept(0);
                 integer.getAndIncrement();
                 zeroSemaphore.release(1);
             }else{
@@ -67,10 +70,18 @@ public class ZeroEvenOdd {
         }
     }
 
-    public void even(IntConsumer printNumber) throws InterruptedException {
+    public void odd(IntConsumer printNumber) throws InterruptedException {
         while(integer.intValue() <= n){
-            if(integer.intValue()%2 != 0){
+            int val = integer.intValue() ;
+            if(val%2 != 0){
+
+               /* if(val == n
+                && n%2==0){
+                //避免锁竞争，提前判断最后一位是否是偶数，若是偶数直接退出
+                    return ;
+                }*/
                 zeroSemaphore.acquire(1);
+                if(integer.intValue() >n)return ;
                 printNumber.accept(integer.intValue());
                 integer.getAndIncrement();
                 evenSemaphore.release(1);
@@ -78,11 +89,18 @@ public class ZeroEvenOdd {
         }
     }
 
-    public void odd(IntConsumer printNumber) throws InterruptedException {
+    public void even(IntConsumer printNumber) throws InterruptedException {
         while(integer.intValue() <= n){
             boolean isOdd = integer.intValue()!=0 && integer.intValue()%2==0;
             if(isOdd){
+               /* if(integer.intValue() == n
+                        && n%2!=0){
+                    //避免锁竞争，提前判断最后一位是否是偶数，若是偶数直接退出
+                    return ;
+                }*/
+                //System.out.println("==even integer num is"+integer);
                 zeroSemaphore.acquire(1);
+                if(integer.intValue() >n)return ;
                 printNumber.accept(integer.intValue());
                 integer.getAndIncrement();
                 oddSemaphore.release(1);
