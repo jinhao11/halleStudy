@@ -81,10 +81,17 @@ public class ZeroEvenOdd {
                     return ;
                 }*/
                 zeroSemaphore.acquire(1);
-                if(integer.intValue() >n)return ;
-                printNumber.accept(integer.intValue());
-                integer.getAndIncrement();
-                evenSemaphore.release(1);
+                if(integer.intValue() >n){
+                    //zeroSemaphore.release();
+                    return ;
+                }
+                if(integer.intValue()%2 != 0){
+                    printNumber.accept(integer.intValue());
+                    integer.getAndIncrement();
+                    evenSemaphore.release(1);
+                }else{
+                    zeroSemaphore.release(1);
+                }
             }
         }
     }
@@ -100,16 +107,29 @@ public class ZeroEvenOdd {
                 }*/
                 //System.out.println("==even integer num is"+integer);
                 zeroSemaphore.acquire(1);
-                if(integer.intValue() >n)return ;
-                printNumber.accept(integer.intValue());
-                integer.getAndIncrement();
-                oddSemaphore.release(1);
+                if(integer.intValue() >n){
+                    //zeroSemaphore.release(1);
+                    return ;
+                }
+                if(integer.intValue()!=0 && integer.intValue()%2==0){
+                    printNumber.accept(integer.intValue());
+                    integer.getAndIncrement();
+                    oddSemaphore.release(1);
+                }else{
+                    zeroSemaphore.release(1);
+                }
+
             }
         }
     }
 
+    /**
+     * 灵活控制多线程场景下方法的执行顺序
+     *
+     * @param args
+     */
     public static void main(String[] args) {
-        final ZeroEvenOdd zeroEvenOdd = new ZeroEvenOdd(5);
+        final ZeroEvenOdd zeroEvenOdd = new ZeroEvenOdd(2);
         new Thread(
                 new Runnable() {
                     @Override
